@@ -54,6 +54,21 @@
         .search-bar button:hover {
             background-color: #357ae8;
         }
+
+        .clear-btn {
+            margin-top: 15px;
+            padding: 8px 18px;
+            border: none;
+            background-color: #e53935;
+            color: #fff;
+            font-size: 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .clear-btn:hover {
+            background-color: #b71c1c;
+        }
     </style>
 </head>
 <body>
@@ -61,8 +76,9 @@
     <h1>Tutfinder</h1>
     <div class="search-bar">
         <input id="searchBar" type="text" placeholder="Search for tutorials..." autocomplete="off" />
-        <button>Search</button>
+        <button id="searchButton">Search</button>
     </div>
+    <button id="clearSuggestionsButton" class="clear-btn">Remove all suggestions</button>
     <div id="dropdown" style="position: relative; width: 50%; max-width: 600px;"></div>
 
     <!-- Link the JavaScript file -->

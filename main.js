@@ -3,7 +3,7 @@ const searchBar = document.getElementById('searchBar');
 
 // Get the dropdown container element by its ID
 const dropdown = document.getElementById('dropdown');
-
+const searchButton = document.getElementById('searchButton');
 // Load search history from localStorage (if available), otherwise use an empty array
 // This allows the search history to persist across page reloads
 // and browser sessions, making it more user-friendly.
@@ -55,7 +55,18 @@ const updateDropdown = (query) => {
   filteredHistory.forEach((item, index) => {
     // Create a new div element to represent this suggestion
     const option = document.createElement('div');
-
+    //option.style.cursor = 'pointer'; // Change cursor to pointer for better UX
+    //option.style.padding = '8px'; // Add padding for better spacing
+    //option.style.borderBottom = '1px solid #ccc'; // Add a border for separation
+    //option.style.backgroundColor = index === selectedIndex ? '#eee' : ''; // Highlight if selected
+    //option.style.transition = 'background-color 0.2s'; // Smooth transition for background color
+    //option.style.fontSize = '14px'; // Set font size for readability
+    //option.style.color = 'green'; // Set text color for better contrast
+    //option.style.whiteSpace = 'nowrap'; // Prevent text wrapping
+    //option.style.overflow = 'hidden'; // Hide overflow text
+    //option.style.textOverflow = 'ellipsis'; // Add ellipsis for overflow text
+    //option.style.maxWidth = '300px'; // Set a maximum width for the dropdown options
+   
     // Set the text content to the history item
     option.textContent = item;
 
@@ -90,31 +101,34 @@ searchBar.addEventListener('input', () => {
   }
 });
 
+
+
+
 // Event listener for key presses inside the search bar
 searchBar.addEventListener('keydown', (e) => {
   // Get all suggestion options currently in the dropdown
   const options = dropdown.querySelectorAll('div');
-
+  //options.style.backgroundColor = 'blue'; // Reset background color for all options
   // If the down arrow is pressed
   if (e.key === 'ArrowDown') {
     e.preventDefault(); // Prevent cursor from moving in input
-
+    if(options.length > 0){
     // Move selection down, wrap around using modulo
     selectedIndex = (selectedIndex + 1) % options.length;
     highlightOption(options); // Highlight the new selection
   }
 
   // If the up arrow is pressed
-  else if (e.key === 'ArrowUp') {
+}else if (e.key === 'ArrowUp') {
     e.preventDefault(); // Prevent cursor from moving
-
+    if(options.length > 0){
     // Move selection up, wrap around if needed
     selectedIndex = (selectedIndex - 1 + options.length) % options.length;
     highlightOption(options); // Highlight the new selection
   }
 
   // If Enter is pressed
-  else if (e.key === 'Enter') {
+}else if (e.key === 'Enter') {
     e.preventDefault(); // Prevent form submission or new line
 
     // Get the input value, trimmed of whitespace
@@ -124,14 +138,17 @@ searchBar.addEventListener('keydown', (e) => {
     if (selectedIndex >= 0 && options[selectedIndex]) {
       value = options[selectedIndex].textContent;
       searchBar.value = value;
-    }
+    } //else {
+      // If no selection, use the current input value
+      //value = searchBar.value.trim();
+    //}
 
     // If the value is non-empty and not already in history
     if (value && !searchHistory.includes(value)) {
       searchHistory.push(value); // Add to history
 
       // Limit history to the most recent 10 items
-      if (searchHistory.length > 10) {
+      if (searchHistory.length > 100) {
         searchHistory.shift(); // Remove the oldest item
       }
 
@@ -139,7 +156,7 @@ searchBar.addEventListener('keydown', (e) => {
     }
 
     // Clear the input field and hide the dropdown
-    searchBar.value = '';
+    //searchBar.value = '';
     dropdown.style.display = 'none';
     selectedIndex = -1; // Reset selection
   }
@@ -157,11 +174,59 @@ function highlightOption(options) {
     opt.style.backgroundColor = index === selectedIndex ? '#eee' : '';
   });
 }
+// if the button is clicked, it will search for the input value
 
+
+function myFunction() {
+  // Get the input value, trimmed of whitespace
+  let value = searchBar.value.trim();
+
+  // If an item is selected from dropdown, use that instead of typed input
+  if (selectedIndex >= 0 && dropdown.querySelectorAll('div')[selectedIndex]) {
+    value = dropdown.querySelectorAll('div')[selectedIndex].textContent;
+    searchBar.value = value;
+  }
+
+  // If the value is non-empty and not already in history
+  if (value && !searchHistory.includes(value)) {
+    searchHistory.push(value); // Add to history
+
+    // Limit history to the most recent 10 items
+    if (searchHistory.length > 10) {
+      searchHistory.shift(); // Remove the oldest item
+    }
+
+    saveSearchHistory(); // Save updated history
+  }
+
+  // Clear the input field and hide the dropdown
+  searchBar.value = '';
+  dropdown.style.display = 'none';
+  selectedIndex = -1; // Reset selection
+}
 // Event listener for clicks anywhere in the document
 document.addEventListener('click', (e) => {
   // If the click is outside both the dropdown and the search bar, hide the dropdown
   if (!e.target.closest('#dropdown') && e.target !== searchBar) {
     dropdown.style.display = 'none';
   }
+});
+
+searchButton.addEventListener("click", myFunction);
+
+clearSuggestionsButton.addEventListener("click", () => {
+
+  localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+  dropdown.innerHTML = ''; // Clear the dropdown display
+  dropdown.style.display = 'none'; // Hide the dropdown
+  searchBar.value = ''; // Clear the search bar input
+  selectedIndex = -1; // Reset selection index
+  searchHistory = []; // Reset the search history array
+  localStorage.removeItem('searchHistory'); // Clear history from localStorage
+  saveSearchHistory(); // Save the empty history to localStorage
+  alert("Search history cleared!"); // Notify the user
+  console.log("Search history cleared!"); // Log to console for debugging
+  console.log("Search history:", searchHistory); // Log the current search history
+  
+
 });
