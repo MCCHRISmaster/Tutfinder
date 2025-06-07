@@ -106,29 +106,23 @@ searchBar.addEventListener('input', () => {
 
 // Event listener for key presses inside the search bar
 searchBar.addEventListener('keydown', (e) => {
-  // Get all suggestion options currently in the dropdown
-  const options = dropdown.querySelectorAll('div');
-  //options.style.backgroundColor = 'blue'; // Reset background color for all options
-  // If the down arrow is pressed
   if (e.key === 'ArrowDown') {
-    e.preventDefault(); // Prevent cursor from moving in input
-    if(options.length > 0){
-    // Move selection down, wrap around using modulo
-    selectedIndex = (selectedIndex + 1) % options.length;
-    highlightOption(options); // Highlight the new selection
-  }
-
-  // If the up arrow is pressed
-}else if (e.key === 'ArrowUp') {
-    e.preventDefault(); // Prevent cursor from moving
-    if(options.length > 0){
-    // Move selection up, wrap around if needed
-    selectedIndex = (selectedIndex - 1 + options.length) % options.length;
-    highlightOption(options); // Highlight the new selection
-  }
-
-  // If Enter is pressed
-}else if (e.key === 'Enter') {
+    const options = dropdown.querySelectorAll('div');
+    if (options.length > 0) {
+      selectedIndex = (selectedIndex + 1) % options.length;
+      highlightOption(options);
+      scrollActiveOptionIntoView(); // <-- Add this line
+    }
+    e.preventDefault();
+  } else if (e.key === 'ArrowUp') {
+    const options = dropdown.querySelectorAll('div');
+    if (options.length > 0) {
+      selectedIndex = (selectedIndex - 1 + options.length) % options.length;
+      highlightOption(options);
+      scrollActiveOptionIntoView(); // <-- Add this line
+    }
+    e.preventDefault();
+  } else if (e.key === 'Enter') {
     e.preventDefault(); // Prevent form submission or new line
 
     // Get the input value, trimmed of whitespace
@@ -230,3 +224,10 @@ clearSuggestionsButton.addEventListener("click", () => {
   
 
 });
+
+function scrollActiveOptionIntoView() {
+  const options = dropdown.querySelectorAll('div');
+  if (selectedIndex >= 0 && options[selectedIndex]) {
+    options[selectedIndex].scrollIntoView({ block: 'nearest' });
+  }
+}
