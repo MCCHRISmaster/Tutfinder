@@ -57,17 +57,24 @@
 
         .clear-btn {
             margin-top: 15px;
-            padding: 8px 18px;
+            padding: 6px 14px;
             border: none;
             background-color: #e53935;
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.9rem;
             border-radius: 20px;
             cursor: pointer;
             transition: background 0.2s;
         }
         .clear-btn:hover {
             background-color: #b71c1c;
+        }
+        .bottom-left-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            margin-top: 0;
+            z-index: 1001;
         }
     </style>
 </head>
@@ -78,8 +85,9 @@
         <input id="searchBar" type="text" placeholder="Search for tutorials..." autocomplete="off" />
         <button id="searchButton">Search</button>
     </div>
-    <button id="clearSuggestionsButton" class="clear-btn">Remove all suggestions</button>
     <div id="dropdown" style="position: relative; width: 50%; max-width: 600px;"></div>
+
+    <button id="clearSuggestionsButton" class="clear-btn bottom-left-btn">Remove all suggestions</button>
 
     <!-- Link the JavaScript file -->
     <script src="main.js"></script>
