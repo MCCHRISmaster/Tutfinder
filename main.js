@@ -191,7 +191,12 @@ function myFunction() {
     }
 
     saveSearchHistory(); // Save updated history
+    
   }
+  if(value == "math"){
+      window.location.href = "math.html"; // Redirect to math page
+
+    }
 
   // Clear the input field and hide the dropdown
   searchBar.value = '';
