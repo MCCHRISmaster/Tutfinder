@@ -1,75 +1,20 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
-    <title>Math</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f8f9fa;
-        }
-        h1 {
-            font-size: 3rem;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .search-bar {
-            display: flex;
-            width: 50%;
-            max-width: 600px;
-            border: 1px solid #ccc;
-            border-radius: 25px;
-            overflow: hidden;
-            background-color: #fff;
-        }
-        .search-bar input {
-            flex: 1;
-            padding: 10px 15px;
-            border: none;
-            outline: none;
-            font-size: 1rem;
-        }
-        .search-bar button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #4285f4;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        </style>
-
+  <meta charset="UTF-8" />
+  <title>math</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-    <h1>Math</h1>
-    <div class="search-bar">    
-        <input type="text" placeholder="Search for math tutorials..." />
-        <button>Search</button>
-    </div>
-    <div id="dropdown">
-        <button class="dropbtn">Select Category</button>
-        <div class="dropdown-content">
-            <a href="#">Algebra</a>
-            <a href="#">Geometry</a>
-            <a href="#">Calculus</a>
-            <a href="#">Statistics</a>
-        </div>
-    </div>
-    <div><button id="back"><h3>Go back</h3></button></div>   
-
-<script>
-  document.getElementById('back').onclick = function() {
-    window.location.href = "index.html";
-  };
-</script>
+  <h1>math</h1>
+  <div class="dropdown-content">
+    <a href="#">Algebra</a>
+<a href="#">Geometry</a>
+<a href="#">Calculus</a>
+<a href="#">Statistics</a>
+  </div>
+  <div><button onclick="window.location.href='index.html'">Go back</button></div>
 </body>
 </html>
+  

@@ -197,6 +197,27 @@ function myFunction() {
       window.location.href = "math.html"; // Redirect to math page
 
     }
+    if (value) {
+      // You can customize categories as needed
+      let categories = [];
+      if (value.toLowerCase() === "math") {
+        categories = ["Algebra", "Geometry", "Calculus", "Statistics"];
+      } else {
+        categories = ["General"];
+      }
+
+      fetch('/create-page', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `title=${encodeURIComponent(value)}&categories=${encodeURIComponent(categories.join(','))}`
+      })
+      .then(response => {
+        if (response.redirected) {
+          window.location.href = response.url;
+        }
+      });
+      return; // Prevent further code execution
+    }
 
   // Clear the input field and hide the dropdown
   searchBar.value = '';

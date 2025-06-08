@@ -115,6 +115,38 @@
             margin-top: 0;
             z-index: 1001;
         }
+
+        /* Form styles */
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        form button {
+            padding: 10px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        form button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -128,7 +160,42 @@
 
     <button id="clearSuggestionsButton" class="clear-btn bottom-left-btn">Remove all suggestions</button>
 
+    <!-- Add inside <body> of index.html -->
+    <form action="/create-page" method="POST" style="margin-bottom:20px;">
+      <input name="title" placeholder="Page Title" required>
+      <input name="categories" placeholder="Categories (comma separated)" required>
+      <button type="submit">Create Page</button>
+    </form>
+
     <!-- Link the JavaScript file -->
     <script src="main.js"></script>
+    <!-- Add this script at the end of your body in index.html -->
+<script>
+document.getElementById('searchButton').onclick = function(e) {
+  e.preventDefault();
+  const title = document.getElementById('searchBar').value.trim();
+  if (!title) return;
+
+  // You can customize categories as needed, here is an example for Math
+  let categories = [];
+  if (title.toLowerCase() === "math") {
+    categories = ["Algebra", "Geometry", "Calculus", "Statistics"];
+  } else {
+    categories = ["General"];
+  }
+
+  fetch('/create-page', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `title=${encodeURIComponent(title)}&categories=${encodeURIComponent(categories.join(','))}`
+  })
+  .then(response => {
+    // Redirect to the new page (the server redirects, so we follow)
+    if (response.redirected) {
+      window.location.href = response.url;
+    }
+  });
+};
+</script>
 </body>
 </html>
