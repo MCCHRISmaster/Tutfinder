@@ -193,37 +193,63 @@ function myFunction() {
     saveSearchHistory(); // Save updated history
     
   }
-  if(value == "math"){
-      window.location.href = "math.html"; // Redirect to math page
 
-    }
-    if (value) {
-      // You can customize categories as needed
-      let categories = [];
-      if (value.toLowerCase() === "math") {
-        categories = ["Algebra", "Geometry", "Calculus", "Statistics"];
-      } else {
-        categories = ["General"];
+  // if(value == "math"){
+  //     window.location.href = "math.html"; // Redirect to math page
+
+  //   }
+    let categories = [];
+    let allDict = {
+      math: ["Algebra", "Geometry", "Calculus", "Statistics"],
+      science: ["Physics", "Chemistry", "Biology"],
+      history: ["Ancient", "Modern", "World"]
+    };
+
+    const lowerValue = value.toLowerCase();
+    for (let key in allDict) {
+      if (
+        key === lowerValue || // Match the key itself
+        allDict[key].some(cat => lowerValue.includes(cat.toLowerCase()))
+      ) {
+        categories = allDict[key];
+        break;
       }
-
-      fetch('/create-page', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `title=${encodeURIComponent(value)}&categories=${encodeURIComponent(categories.join(','))}`
-      })
-      .then(response => {
-        if (response.redirected) {
-          window.location.href = response.url;
-        }
-      });
-      return; // Prevent further code execution
     }
+    // If no specific category is found, default to "General"
+    if (categories.length === 0) {
+      categories = ["General"];
+    }
+
+    // Send a POST request to create a new page with the title and categories
+    // The request will be handled by the server to create a new page 
+    // and redirect to that page.
+    // The body of the request contains the title and categories as URL-encoded form data.
+    // The server will create a new HTML page with the given title and categories.
+    // The server will respond with a redirect to the newly created page.
+    // The response will be a redirect to the newly created page.
+    // The browser will navigate to the new page.
+    // The server will create a new HTML page with the given title and categories.
+    // The server will respond with a redirect to the newly created page.
+    
+
+    fetch('/create-page', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `title=${encodeURIComponent(value)}&categories=${encodeURIComponent(categories.join(','))}`
+    })
+    .then(response => {
+      if (response.redirected) {
+        window.location.href = response.url;
+      }
+    });
+    return; // Prevent further code execution
+  }
 
   // Clear the input field and hide the dropdown
   searchBar.value = '';
   dropdown.style.display = 'none';
   selectedIndex = -1; // Reset selection
-}
+  
 // Event listener for clicks anywhere in the document
 document.addEventListener('click', (e) => {
   // If the click is outside both the dropdown and the search bar, hide the dropdown

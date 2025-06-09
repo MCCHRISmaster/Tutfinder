@@ -30,6 +30,7 @@ app.post('/create-page', (req, res) => {
 </html>
   `;
 
+  // Only redirect after the file is written!
   fs.writeFile(path.join(__dirname, filename), html, (err) => {
     if (err) {
       res.status(500).send('Error creating file');
