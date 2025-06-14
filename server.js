@@ -7,6 +7,12 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname)); // Serve static files
 
+// Load links data once at startup
+// Assuming links.json is in a 'data' directory relative to this script
+// This file should contain a JSON object with categories as keys and URLs as values
+// Example: { "Category1": "http://example.com/1", "Category2": "http://example.com/2" }
+const linksData = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'links.json'), 'utf8'));
+
 app.post('/create-page', (req, res) => {
   const { title, categories } = req.body;
   const cats = Array.isArray(categories) ? categories : categories.split(',');
@@ -67,7 +73,13 @@ app.post('/create-page', (req, res) => {
 <body>
   <h1>${title}</h1>
   <div class="dropdown-content">
-    ${cats.map(cat => `<a href="#">${cat.trim()}</a>`).join('\n')}
+  // Generate links based on categories
+  // Each category will link to the corresponding URL from linksData
+  // If a category doesn't exist in linksData, it will link to "#"
+    ${cats.map(cat => {
+      const url = linksData[cat.trim()] || "#";
+      return `<a href="${url}" target="_blank">${cat.trim()}</a>`;
+    }).join('\n')}
   </div>
   <div><button onclick="window.location.href='index.html'">Go back</button></div>
 </body>

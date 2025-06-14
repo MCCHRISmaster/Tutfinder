@@ -1,0 +1,10 @@
+{
+  "Algebra": "https://www.khanacademy.org/math/algebra",
+  "Geometry": "https://www.khanacademy.org/math/geometry",
+  "Calculus": "https://www.khanacademy.org/math/calculus-1",
+  "Statistics": "https://www.khanacademy.org/math/statistics-probability",
+  "Ancient": "https://www.khanacademy.org/humanities/world-history/ancient-civilizations",
+  "World": "https://www.khanacademy.org/humanities/world-history",
+  "Modern": "https://www.khanacademy.org/humanities/world-history/modern",
+  "Biology": "https://www.khanacademy.org/science/biology"
+}
